@@ -1,172 +1,317 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Products - MK Time</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <style>
-      body { font-family: 'Georgia', serif; }
-      .navbar-brand { font-size: 1.5rem; letter-spacing: 3px; font-weight: bold; }
-      .page-header { background: #1a1a2e; color: #f0e6d3; padding: 60px 0; text-align: center; }
-      .page-header h1 { letter-spacing: 4px; }
-      .page-header p { color: #c9a96e; }
-      .card { border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
-      .card:hover { transform: translateY(-4px); }
-      .watch-placeholder { height: 200px; background: #e0d5c5; display: flex; align-items: center; justify-content: center; color: #888; font-size: 2rem; }
-      .btn-gold { background-color: #c9a96e; color: #1a1a2e; border: none; }
-      .btn-gold:hover { background-color: #b8924e; color: #fff; }
-      .badge-new { background-color: #c9a96e; color: #1a1a2e; }
-      footer { background: #1a1a2e; color: #c9a96e; padding: 30px 0; text-align: center; }
-    </style>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products - MK Time</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root { --gold: #c9a96e; --dark: #1a1a2e; --dark2: #16213e; }
+    body { font-family: Georgia, serif; background: #fafafa; }
+    .navbar-brand { font-size: 1.5rem; letter-spacing: 4px; font-weight: bold; }
+    .cart-badge { position: absolute; top: -6px; right: -10px; background: var(--gold); color: var(--dark); border-radius: 50%; font-size: 0.65rem; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .page-header { background: linear-gradient(135deg, var(--dark) 0%, #2d2d4e 100%); color: #f0e6d3; padding: 70px 0; text-align: center; }
+    .page-header h1 { letter-spacing: 5px; font-size: 2.5rem; }
+    .page-header p { color: var(--gold); }
+    .btn-gold { background: var(--gold); color: var(--dark); border: none; font-weight: bold; }
+    .btn-gold:hover { background: #b8924e; color: #fff; }
+    .product-card { border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.07); transition: transform 0.2s, box-shadow 0.2s; overflow: hidden; background: #fff; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.13); }
+    .product-card img { height: 220px; object-fit: cover; width: 100%; }
+    .badge-gold { background: var(--gold); color: var(--dark); }
+    .filter-bar { background: #fff; border-radius: 8px; padding: 16px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; }
+    footer { background: var(--dark); color: #ccc; padding: 30px 0; text-align: center; }
+    footer a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background:#1a1a2e;">
-      <div class="container">
-        <a class="navbar-brand" href="index.html">MK TIME</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
-            <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-            <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Page Header -->
-    <section class="page-header">
-      <div class="container">
-        <h1>Our Collection</h1>
-        <p>Handcrafted Swiss Timepieces — Made in Edinburgh</p>
-      </div>
-    </section>
-
-    <!-- Filter Bar -->
-    <div class="container my-4">
-      <div class="row align-items-center">
-        <div class="col-md-6">
-          <p class="mb-0 text-muted">Showing 6 watches</p>
-        </div>
-        <div class="col-md-6 text-md-end">
-          <select class="form-select w-auto d-inline-block">
-            <option>Sort by: Featured</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-            <option>Newest</option>
-          </select>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background:var(--dark);">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">MK TIME</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+          <li class="nav-item ms-2">
+            <a class="nav-link position-relative" href="cart.html">
+              <i class="bi bi-bag fs-5"></i>
+              <span class="cart-badge" id="cartCount">0</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+  </nav>
 
-    <!-- Products Grid -->
-    <section class="container mb-5">
-      <div class="row g-4">
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Our Collection</h1>
+      <p class="mt-2">Handcrafted Swiss Timepieces — Made in Edinburgh</p>
+    </div>
+  </section>
 
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="watch-placeholder">⌚</div>
-            <div class="card-body">
-              <span class="badge badge-new mb-2">Best Seller</span>
-              <h5 class="card-title">The Edinburgh Classic</h5>
-              <p class="card-text text-muted small">Swiss automatic movement, stainless steel case, leather strap. 38mm case diameter.</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="fw-bold fs-5">£1,200</span>
-                <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="watch-placeholder">⌚</div>
-            <div class="card-body">
-              <h5 class="card-title">The Highland Sport</h5>
-              <p class="card-text text-muted small">Water resistant to 100m. Sapphire crystal glass. Rubber strap. 42mm case.</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="fw-bold fs-5">£850</span>
-                <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="watch-placeholder">⌚</div>
-            <div class="card-body">
-              <span class="badge badge-new mb-2">Limited Edition</span>
-              <h5 class="card-title">The Royal Gold</h5>
-              <p class="card-text text-muted small">18k gold case. Swiss mechanical movement. Limited edition of 100 pieces only.</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="fw-bold fs-5">£3,500</span>
-                <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="watch-placeholder">⌚</div>
-            <div class="card-body">
-              <h5 class="card-title">The Lothian Slim</h5>
-              <p class="card-text text-muted small">Ultra-slim quartz. Rose gold plated. 36mm. Perfect for formal occasions.</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="fw-bold fs-5">£650</span>
-                <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="watch-placeholder">⌚</div>
-            <div class="card-body">
-              <span class="badge badge-new mb-2">New</span>
-              <h5 class="card-title">The Castle Chronograph</h5>
-              <p class="card-text text-muted small">Chronograph function. Tachymeter bezel. Swiss automatic. 44mm steel case.</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="fw-bold fs-5">£1,800</span>
-                <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card h-100">
-            <div class="watch-placeholder">⌚</div>
-            <div class="card-body">
-              <h5 class="card-title">The Meadows Lady</h5>
-              <p class="card-text text-muted small">Diamond-set bezel. Mother-of-pearl dial. Swiss quartz. 32mm gold case.</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <span class="fw-bold fs-5">£2,100</span>
-                <a href="#" class="btn btn-gold btn-sm">Add to Cart</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
+  <!-- Filter Bar -->
+  <div class="container my-4">
+    <div class="filter-bar d-flex flex-wrap align-items-center gap-3">
+      <span class="fw-bold small text-uppercase" style="letter-spacing:1px;">Filter:</span>
+      <button class="btn btn-sm btn-gold filter-btn active" data-filter="all">All</button>
+      <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="classic">Classic</button>
+      <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="sport">Sport</button>
+      <button class="btn btn-sm btn-outline-secondary filter-btn" data-filter="luxury">Luxury</button>
+      <div class="ms-auto d-flex align-items-center gap-2">
+        <label class="small fw-bold text-muted">Sort:</label>
+        <select class="form-select form-select-sm w-auto" id="sortSelect">
+          <option value="featured">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name">Name A–Z</option>
+        </select>
       </div>
-    </section>
+    </div>
+    <p class="mt-2 mb-0 small text-muted" id="resultCount">Showing 6 watches</p>
+  </div>
 
-    <!-- Footer -->
-    <footer>
-      <div class="container">
-        <p class="mb-1"><strong>MK TIME</strong> — Edinburgh, Scotland</p>
-        <p class="mb-0 small">© 2024 MK Time. All rights reserved.</p>
+  <!-- Products Grid -->
+  <section class="container mb-5">
+    <div class="row g-4" id="productsGrid">
+
+      <div class="col-md-4 product-item" data-category="classic" data-price="1200" data-name="The Edinburgh Classic">
+        <div class="card product-card h-100">
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop" alt="Edinburgh Classic">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">The Edinburgh Classic</h5>
+            <p class="small text-muted">Swiss automatic movement, stainless steel case, leather strap. 38mm diameter.</p>
+            <ul class="list-unstyled small text-muted mt-1">
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Swiss automatic movement</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Sapphire crystal glass</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>5 year warranty</li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+              <span class="fw-bold fs-5">£1,200</span>
+              <button class="btn btn-gold btn-sm" onclick="addToCart({id:1,name:'The Edinburgh Classic',price:1200,img:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop'})">
+                <i class="bi bi-bag-plus me-1"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-  </body>
+      <div class="col-md-4 product-item" data-category="sport" data-price="850" data-name="The Highland Sport">
+        <div class="card product-card h-100">
+          <img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&h=400&fit=crop" alt="Highland Sport">
+          <div class="card-body d-flex flex-column">
+            <span class="badge badge-gold mb-2 align-self-start">Best Seller</span>
+            <h5 class="card-title">The Highland Sport</h5>
+            <p class="small text-muted">Water resistant to 100m. Sapphire crystal glass. Rubber strap. 42mm case.</p>
+            <ul class="list-unstyled small text-muted mt-1">
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>100m water resistance</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Luminous hands</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>5 year warranty</li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+              <span class="fw-bold fs-5">£850</span>
+              <button class="btn btn-gold btn-sm" onclick="addToCart({id:2,name:'The Highland Sport',price:850,img:'https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=100&h=100&fit=crop'})">
+                <i class="bi bi-bag-plus me-1"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 product-item" data-category="luxury" data-price="3500" data-name="The Royal Gold">
+        <div class="card product-card h-100">
+          <img src="https://images.unsplash.com/photo-1622434641406-a158123450f9?w=600&h=400&fit=crop" alt="Royal Gold">
+          <div class="card-body d-flex flex-column">
+            <span class="badge badge-gold mb-2 align-self-start">Limited Edition</span>
+            <h5 class="card-title">The Royal Gold</h5>
+            <p class="small text-muted">18k gold case. Swiss mechanical movement. Limited edition of 100 pieces.</p>
+            <ul class="list-unstyled small text-muted mt-1">
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>18k solid gold case</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Hand-engraved dial</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Certificate of authenticity</li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+              <span class="fw-bold fs-5">£3,500</span>
+              <button class="btn btn-gold btn-sm" onclick="addToCart({id:3,name:'The Royal Gold',price:3500,img:'https://images.unsplash.com/photo-1622434641406-a158123450f9?w=100&h=100&fit=crop'})">
+                <i class="bi bi-bag-plus me-1"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 product-item" data-category="classic" data-price="650" data-name="The Lothian Slim">
+        <div class="card product-card h-100">
+          <img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&h=400&fit=crop" alt="Lothian Slim">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">The Lothian Slim</h5>
+            <p class="small text-muted">Ultra-slim quartz. Rose gold plated. 36mm. Perfect for formal occasions.</p>
+            <ul class="list-unstyled small text-muted mt-1">
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Ultra-slim 6mm profile</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Rose gold plating</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Italian leather strap</li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+              <span class="fw-bold fs-5">£650</span>
+              <button class="btn btn-gold btn-sm" onclick="addToCart({id:4,name:'The Lothian Slim',price:650,img:'https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=100&h=100&fit=crop'})">
+                <i class="bi bi-bag-plus me-1"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 product-item" data-category="sport" data-price="1800" data-name="The Castle Chronograph">
+        <div class="card product-card h-100">
+          <img src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=600&h=400&fit=crop" alt="Castle Chronograph">
+          <div class="card-body d-flex flex-column">
+            <span class="badge badge-gold mb-2 align-self-start">New</span>
+            <h5 class="card-title">The Castle Chronograph</h5>
+            <p class="small text-muted">Chronograph function. Tachymeter bezel. Swiss automatic. 44mm steel case.</p>
+            <ul class="list-unstyled small text-muted mt-1">
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>3-register chronograph</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Tachymeter bezel</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>50m water resistance</li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+              <span class="fw-bold fs-5">£1,800</span>
+              <button class="btn btn-gold btn-sm" onclick="addToCart({id:5,name:'The Castle Chronograph',price:1800,img:'https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=100&h=100&fit=crop'})">
+                <i class="bi bi-bag-plus me-1"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 product-item" data-category="luxury" data-price="2100" data-name="The Meadows Lady">
+        <div class="card product-card h-100">
+          <img src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=600&h=400&fit=crop" alt="Meadows Lady">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">The Meadows Lady</h5>
+            <p class="small text-muted">Diamond-set bezel. Mother-of-pearl dial. Swiss quartz. 32mm gold case.</p>
+            <ul class="list-unstyled small text-muted mt-1">
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Diamond-set bezel</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Mother-of-pearl dial</li>
+              <li><i class="bi bi-check2 me-1" style="color:var(--gold)"></i>Alligator leather strap</li>
+            </ul>
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
+              <span class="fw-bold fs-5">£2,100</span>
+              <button class="btn btn-gold btn-sm" onclick="addToCart({id:6,name:'The Meadows Lady',price:2100,img:'https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=100&h=100&fit=crop'})">
+                <i class="bi bi-bag-plus me-1"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- No results message -->
+    <div id="noResults" class="text-center py-5 d-none">
+      <i class="bi bi-search fs-1 text-muted"></i>
+      <p class="mt-3 text-muted">No watches match this filter.</p>
+      <button class="btn btn-outline-secondary btn-sm" onclick="resetFilter()">Show All</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p class="mb-1"><strong style="color:var(--gold);letter-spacing:3px;">MK TIME</strong> — Edinburgh, Scotland</p>
+    <p class="small mb-0 text-muted">© 2024 MK Time. All rights reserved. | <a href="index.html">Home</a> | <a href="cart.html">Cart</a></p>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+    <div id="cartToast" class="toast align-items-center text-white border-0" style="background:var(--dark2);">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMsg"></div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ── Cart utilities ────────────────────────────────────────────────────
+    function getCart() { return JSON.parse(localStorage.getItem('mktime_cart') || '[]'); }
+    function saveCart(c) { localStorage.setItem('mktime_cart', JSON.stringify(c)); }
+    function updateCartBadge() {
+      const total = getCart().reduce((s, i) => s + i.qty, 0);
+      document.querySelectorAll('#cartCount').forEach(el => el.textContent = total);
+    }
+    function addToCart(product) {
+      const cart = getCart();
+      const ex = cart.find(i => i.id === product.id);
+      ex ? ex.qty++ : cart.push({ ...product, qty: 1 });
+      saveCart(cart);
+      updateCartBadge();
+      showToast(`<i class="bi bi-check-circle-fill me-2" style="color:var(--gold)"></i><strong>${product.name}</strong> added to cart!`);
+    }
+    function showToast(msg) {
+      document.getElementById('toastMsg').innerHTML = msg;
+      new bootstrap.Toast(document.getElementById('cartToast'), { delay: 2500 }).show();
+    }
+
+    // ── Filter ────────────────────────────────────────────────────────────
+    let activeFilter = 'all';
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('btn-gold', 'active');
+          b.classList.add('btn-outline-secondary');
+        });
+        this.classList.add('btn-gold', 'active');
+        this.classList.remove('btn-outline-secondary');
+        activeFilter = this.dataset.filter;
+        applyFilterSort();
+      });
+    });
+
+    document.getElementById('sortSelect').addEventListener('change', applyFilterSort);
+
+    function applyFilterSort() {
+      const items = Array.from(document.querySelectorAll('.product-item'));
+      const sort = document.getElementById('sortSelect').value;
+      let visible = items.filter(item => activeFilter === 'all' || item.dataset.category === activeFilter);
+
+      // Sort
+      visible.sort((a, b) => {
+        if (sort === 'price-asc') return +a.dataset.price - +b.dataset.price;
+        if (sort === 'price-desc') return +b.dataset.price - +a.dataset.price;
+        if (sort === 'name') return a.dataset.name.localeCompare(b.dataset.name);
+        return 0;
+      });
+
+      const hiddenSet = new Set(items.filter(i => !visible.includes(i)));
+      hiddenSet.forEach(i => i.classList.add('d-none'));
+      visible.forEach(i => { i.classList.remove('d-none'); });
+
+      // Re-order DOM
+      const grid = document.getElementById('productsGrid');
+      visible.forEach(i => grid.appendChild(i));
+
+      // No results
+      const noRes = document.getElementById('noResults');
+      visible.length === 0 ? noRes.classList.remove('d-none') : noRes.classList.add('d-none');
+      document.getElementById('resultCount').textContent = `Showing ${visible.length} watch${visible.length !== 1 ? 'es' : ''}`;
+    }
+
+    function resetFilter() {
+      document.querySelector('[data-filter="all"]').click();
+    }
+
+    updateCartBadge();
+  </script>
+</body>
 </html>
